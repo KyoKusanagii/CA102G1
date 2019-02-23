@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>設置限時特賣</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/wickedpicker.min.css">
+    <link rel="stylesheet" href="css/wickedpicker.scss">
+    <link rel="stylesheet" href="css/BackEnd.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/BackEnd.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="js/wickedpicker.min.js"></script>
+    <script src="js/wickedpickerSpec.js"></script>
+    <script src="js/Logout.js"></script>
+    <script>
+        $(document).ready(function() { //選擇開始日期的日期範圍
+            var today = new Date();
+            var options = {
+                //now: "12:35", //hh:mm 24 hour format only, defaults to current time 
+                twentyFour: false, //Display 24 hour format, defaults to false 
+                upArrow: 'wickedpicker__controls__control-up', //The up arrow class selector to use, for custom CSS 
+                downArrow: 'wickedpicker__controls__control-down', //The down arrow class selector to use, for custom CSS 
+                close: 'wickedpicker__close', //The close class selector to use, for custom CSS 
+                hoverState: 'hover-state', //The hover state class to use, for custom CSS 
+                title: 'Timepicker', //The Wickedpicker's title, 
+                showSeconds: true, //Whether or not to show seconds, 
+                secondsInterval: 1, //Change interval for seconds, defaults to 1  , 
+                minutesInterval: 1, //Change interval for minutes, defaults to 1 
+                beforeShow: null, //A function to be called before the Wickedpicker is shown 
+                show: null, //A function to be called when the Wickedpicker is shown 
+                clearable: true //Make the picker's input clearable (has clickable "x")  }; 
+            };
+
+            $("#StartTime,#EndTime").wickedpicker(options);
+            $("#StartDate,#EndDate").datepicker({
+                showOn: "both",
+                beforeShow: customRange,
+                dateFormat: "yy/mm/dd",
+                minDate: today,
+                maxDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2)
+            });
+
+            function customRange(input) { //選擇結束日期的範圍
+                if (input.id == 'EndDate') {
+                    //var minDate = new Date($('#StartDate').val());
+                    var minDate = new Date($('#StartDate').val());
+                    var maxDate = new Date($('#StartDate').val());
+                    minDate.setDate(minDate.getDate());
+                    maxDate.setDate(minDate.getDate() + 2);
+                    return {
+                        minDate: minDate,
+                        maxDate: maxDate
+                    };
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-primary justify-content-bewteen">
+                    <a class="navbar-brand" style="font-size: 30px;color: white;"><i>InstaBuy</i></a>
+                    <form class="form-inline" id="formLogout" style="margin-right: 50px;" action="<%=request.getContextPath()%>/EmpLogout">
+                        <img src="data:image/jpg;base64,${emp_icon}" style=" border-radius: 500px;width: 60px;height: 60px;">
+                        <label style="font-size: 20px;color: white;margin-left: 10px;">${emp.emp_name} 您好,</label><a class="navbar-brand" id="logout" href="#" style="color:white;">登出</a>
+                    </form>
+                </nav>
+
+    <div class="adminIcon"><img src="img/emp/sira.jpg" alt="">
+        <span align="center"><b>白石麻衣</b></span>
+    </div><br>
+     <div class="list-group">
+        <div class="col-2">
+            <span class="list-group-item list-group-item-action active">設置限時特賣</span>
+            <a href="BackEnd.jsp" class="list-group-item list-group-item-action">回首頁</a>
+        </div>
+    </div>
+        <div class="operationArea" align="center" style="padding-top: 40px;">
+            選擇開始日期及時間:<br>
+            <div><label for="StartDate">開始日期</label><br>
+               <input type="text" id="StartDate"><br>
+                <label for="StartTime">開始時間</label><br>
+                <input type="text" id="StartTime" name="timepicker-one" class="timepicker"></div>
+            <br>
+            <div>選擇結束日期及時間:<br>
+                <label for="StartDate">結束日期</label><br>
+                <input type="text" id="EndDate"><br>
+                <label for="EndTime">結束時間</label><br><input type="text" id="EndTime" name="timepicker-one" class="timepicker"><br>
+            </div>
+        </div>
+
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>CA102G1</display-name>
+  <welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Servlet4Push</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<servlet>
+		<servlet-name>RandomItemServlet</servlet-name>
+		<servlet-class>com.randomNewItem.controller.RandomItemServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- limitSaleSubServlet不可用annotation -->
+	  <servlet>
+	  	<servlet-name>limitSaleSubServlet</servlet-name>
+	  	<servlet-class>com.limitSaleSub.controller.limitSaleSubServlet</servlet-class>
+	  	<load-on-startup>0</load-on-startup>
+	  </servlet>
+	  <servlet-mapping>
+	    <servlet-name>limitSaleSubServlet</servlet-name>
+	    <url-pattern>/limitSale.do</url-pattern>
+	  </servlet-mapping>	
+	
+	<filter>
+		<filter-name>empLoginFilter</filter-name>
+		<filter-class>com.emp.controller.empLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>empLoginFilter</filter-name>
+		<url-pattern>/BackEnd/BackEnd.jsp</url-pattern>
+		<url-pattern>/BackEnd/ContactService.jsp</url-pattern>
+		<url-pattern>/BackEnd/EmployeeAuth.jsp</url-pattern>
+		<url-pattern>/BackEnd/ForumReport.jsp</url-pattern>
+		<url-pattern>/BackEnd/ItemReport.jsp</url-pattern>
+		<url-pattern>/BackEnd/carousel/*</url-pattern>
+		<url-pattern>/BackEnd/news/*</url-pattern>
+		<url-pattern>/BackEnd/member/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+	</filter-mapping>
+   <filter>
+		<filter-name>memberLoginFilter</filter-name>
+		<filter-class>com.member.controller.memberLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+		<filter-name>memberLoginFilter</filter-name>
+		<url-pattern>/FrontEnd/chat/Chat.jsp</url-pattern>
+		<url-pattern>/FrontEnd/seller/SellerPage.jsp</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+		<dispatcher>ASYNC</dispatcher>
+  </filter-mapping>
+  <filter>
+    <filter-name>VisitedCount</filter-name>
+    <filter-class>com.util.getVisitedCount</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>VisitedCount</filter-name>
+    <url-pattern>/FrontEnd/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
+  </filter-mapping>
+	<!--網站每5分鐘的設定人氣統計排程 -->
+  <servlet>
+    <servlet-name>WebSitePopularity</servlet-name>
+    <servlet-class>com.util.storeVisitTimesToRedis</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <listener>
+  	<listener-class>com.util.storeVisitTimesToRedis</listener-class>
+  </listener>
+</web-app>

@@ -1,0 +1,91 @@
+.table{
+    text-align: center;
+}
+.list-group a,.list-group span{
+   padding-left: 70px;
+}
+.list-group a:hover{
+  background-color: lightgray;
+}
+.adminIcon {
+    margin-left:90px;
+    font-size: 20px;
+}
+.adminIcon > img{
+    margin-top: 20px;
+    border-radius: 500px;
+    width: 80px;
+    height: 80px;
+}
+.list-icon{
+    border-radius: 500px;
+    width: 50px;
+    height: 50px; 
+    margin-left: 5px;
+}
+
+#loginIcon {
+    border-radius: 500px;
+    width: 30px;
+    height: 30px
+}
+
+
+#mainFunc b {
+    border: 3px solid brown;
+    text-align: center;
+}
+
+
+body {
+    font-family:Microsoft JhengHei;
+    font-size: 20px;
+}
+
+.operationArea {
+    position: absolute;
+    left: 500px;
+    top: 100px;
+    border: solid 1px black;
+    display: inline-block;
+    height: 800px;
+    width: 950px;
+}
+
+
+.badge {
+    background-color: red;
+    font-family: sans-serif;
+}
+
+input {
+    display: inline-block;
+}
+
+
+.operationArea p {
+    margin-left: 400px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+
+.yes {
+    position: absolute;
+    left: 300px;
+}
+
+.no {
+    position: absolute;
+    left: 400px;
+}
+thead th,tbody td{
+	vertical-align: middle;
+}
+
+
+@font-face {
+font-family: fontello;
+src: url(fonts/fontello.ttf);
+}   

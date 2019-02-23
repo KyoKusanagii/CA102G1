@@ -1,0 +1,86 @@
+#service{background-color: ghostwhite;padding-top: 100px;padding-bottom: 100px;}
+.row-1 .ser-col-4{border-right:solid 1px #ccc;border-bottom: solid 1px #ccc;}
+.row-1 .ser-col-4-l{border-bottom: solid 1px #ccc;}
+.row-2 .ser-col-4{border-right:solid 1px #ccc;border-bottom: solid 1px #ccc;}
+.row-2 .ser-col-4-l{border-bottom: solid 1px #ccc;}
+.row-3 .ser-col-4{border-right:solid 1px #ccc;}
+
+
+@media (max-width:768px){
+    .ser-col-4-l{border-right:solid 1px #ccc;border-bottom: solid 1px #ccc;border-left:solid 1px #ccc;}
+    .ser-col-4{border-left:solid 1px #ccc;border-bottom: solid 1px #ccc;}
+}
+
+.ser-col{width:100%;height:auto;text-align: center;padding:20px;position: relative;}
+.icon-col{width:80px;height:80px;border-radius: 50%;text-align: center;margin-left: auto;margin-right: auto;}
+.icon-col i{font-size: 35px;padding: 20px;}
+.circle {
+    position: absolute;
+    bottom: -11px;
+    right: -24px;
+    z-index: 99;
+}
+.circle i{color:#ccc;font-size: 18px;background-color:ghostwhite;}
+/* .btn { */
+/*     display: inline-block; */
+/*     padding: 6px 12px; */
+/*     margin-bottom: 10px; */
+/*     margin-top: 10px; */
+/*     font-size: 14px; */
+/*     font-weight: normal; */
+/*     line-height: 1.42857143; */
+/*     text-align: center; */
+/*     background-image: none; */
+/*     border-radius: 0px; */
+/* } */
+.ser-col h2{color:#777;
+    margin-bottom: 20px;}
+
+.ser-col p{color:#3e3b3b;
+    margin-bottom: 20px;}
+
+/*====== service 1 ====*/
+.ser-1 .icon-col{border: solid 1px red;}
+.ser-1 .icon-col i{color:red;}
+.ser-1 .btn{color:red;border: 1px solid red;}
+
+/*====== service 2 ====*/
+.ser-2 .icon-col {border: solid 1px green;}
+.ser-2 .icon-col i{color:green;}
+.ser-2 .btn{color:green;border: 1px solid green;}
+
+/*====== service 3 ====*/
+.ser-3 .icon-col {border: solid 1px chocolate;}
+.ser-3 .icon-col i{color:chocolate;}
+.ser-3 .btn{color:chocolate;border: 1px solid chocolate;}
+
+/*====== service 4 ====*/
+.ser-4 .icon-col {border: solid 1px blue;}
+.ser-4 .icon-col i{color:blue;}
+.ser-4 .btn{color:blue;border: 1px solid blue;}
+
+/*====== service 5 ====*/
+.ser-5 .icon-col {border: solid 1px deepskyblue;}
+.ser-5 .icon-col i{color:deepskyblue;}
+.ser-5 .btn{color:deepskyblue;border: 1px solid deepskyblue;}
+
+/*====== service 6 ====*/
+.ser-6 .icon-col {border: solid 1px mediumslateblue;}
+.ser-6 .icon-col i{color:mediumslateblue;}
+.ser-6 .btn{color:mediumslateblue;border: 1px solid mediumslateblue;}
+
+/*====== service 7 ====*/
+.ser-7 .icon-col {border: solid 1px mediumseagreen;}
+.ser-7 .icon-col i{color:mediumseagreen;}
+.ser-7 .btn{color:mediumseagreen;border: 1px solid mediumseagreen;}
+
+/*====== service 8 ====*/
+.ser-8 .icon-col {border: solid 1px salmon;}
+.ser-8 .icon-col i{color:salmon;}
+.ser-8 .btn{color:salmon;border: 1px solid salmon;}
+
+/*====== service 9 ====*/
+.ser-9 .icon-col {border: solid 1px gold;}
+.ser-9 .icon-col i{color:gold;}
+.ser-9 .btn{color:gold;border: 1px solid gold;}
+

@@ -1,0 +1,40 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%  int Rowsperpage = 6;  //?伍嚙踐播嚙踝?嚙踝???   
+    int Rownumber=0;      //?株?嚙踝???
+    int Pagenumber=0;     //?株部嚙踐撮??     
+    int Whichpage=1;      //???橘蕭嚙踝蕭
+    int Pageindexarray[] = null;
+    int Pageindex=0; 
+%>
+<%  
+    Rownumber=list.size();
+    if (Rownumber%Rowsperpage !=0){
+    	Pagenumber=Rownumber/Rowsperpage +1 ;
+    	
+    }
+     
+    else Pagenumber=Rownumber/Rowsperpage;    
+
+    Pageindexarray = new int[Pagenumber]; 
+    for (int i=1 ; i<=Pageindexarray.length ; i++)
+    Pageindexarray[i-1]=i*Rowsperpage-Rowsperpage;
+%>
+
+<%  try {
+      Whichpage = Integer.parseInt(request.getParameter("Whichpage"));
+      Pageindex=Pageindexarray[Whichpage-1];
+    } catch (NumberFormatException E) { //??嚙賜??軋??蛛嚙踝?嚙踐?嚙踝蕭
+       Whichpage=1;
+       Pageindex=0;
+    } catch (ArrayIndexOutOfBoundsException E) { //?株部嚙踐撮?脤??蕭謘橘蕭???斗嚙踐撮??
+         if (Pagenumber>0){
+              Whichpage=Pagenumber;
+              Pageindex=Pageindexarray[Pagenumber-1];
+         }
+    } 
+%>
+<%if (Pagenumber>0){%>
+<B>?蕭<Font Color= Red><%=Whichpage%></Font>嚙踝蕭嚙?嚙踝<Font Color= Red><%=Pagenumber%></Font>嚙踝蕭嚙?</B>
+<%}%>
+<B>嚙踝嚙踝蕭嚙?Font Color=Red><%=Rownumber%></Font>?哨嚙踝嚙踝蕭</B>
+
