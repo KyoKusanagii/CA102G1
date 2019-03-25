@@ -18,15 +18,15 @@ import com.follow_mem.model.Follow_memVO;
 
 public class Follow_itemDAO implements Follow_itemDAO_interface{
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
-				private static DataSource ds = null;
-				static {
-					try {
-						Context ctx = new InitialContext();
-						ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
-					} catch (NamingException e) {
-						e.printStackTrace();
-					}
-				}
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static final String INSERT_STMT = "INSERT INTO FOLLOW_ITEM(MEM_NO, ITEM_NO, FOLO_TIME) VALUES(?, ?, ?)";
 	public static final String DELETE_STMT = "DELETE FROM FOLLOW_ITEM WHERE MEM_NO = ? AND ITEM_NO = ?";
