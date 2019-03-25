@@ -1,5 +1,9 @@
 package com.emp.model;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,10 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EmpDAO implements EmpDAO_interface {
-	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String USER = "Instabuy";	//此為登入的資料庫名稱，非資料庫帳號
-	private static final String PASSWORD = "123456";
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static final String INSERT_STMT = 			
 	"INSERT INTO EMPLOYEE(EMP_NO,EMP_ID,EMP_PWD,EMP_NAME,EMP_STATUS,EMP_ICON,EMP_MEM_AUTH,EMP_CAROUSEL_AUTH,EMP_REPORT_AUTH," 
@@ -39,8 +48,7 @@ public class EmpDAO implements EmpDAO_interface {
 		PreparedStatement pstmt = null;
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 				
 			//pstmt.setString(1, emp.getEmp_no()); 這裡會自增主鍵，不用設定
@@ -57,9 +65,6 @@ public class EmpDAO implements EmpDAO_interface {
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException ce) {
-			throw new RuntimeException("Couldn't load database driver. " + ce.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -87,9 +92,7 @@ public class EmpDAO implements EmpDAO_interface {
 		PreparedStatement pstmt = null;
 
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
-			pstmt = con.prepareStatement(UPDATE_STMT);
+			con = ds.getConnection();
 			//pstmt.setString(1, emp.getEmp_no()); 不會改編號，這是固定的，不能更新員工密碼
 			pstmt.setString(1, emp.getEmp_id());
 			pstmt.setString(2, emp.getEmp_name());
@@ -104,9 +107,6 @@ public class EmpDAO implements EmpDAO_interface {
 			pstmt.executeUpdate();
 			
 			// Handle any driver errors
-		} catch (ClassNotFoundException ce) {
-			throw new RuntimeException("Couldn't load database driver. " + ce.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -134,17 +134,13 @@ public class EmpDAO implements EmpDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
 			pstmt.setString(1, emp_no);	
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException ce) {
-			throw new RuntimeException("Couldn't load database driver. " + ce.getMessage());
-			// Handle any SQL errors
-		} catch (SQLException se) {
+		}  catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
 		} finally {
@@ -173,9 +169,8 @@ public class EmpDAO implements EmpDAO_interface {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_PK);
 			pstmt.setString(1, emp_no);
 			rs = pstmt.executeQuery();
@@ -194,9 +189,6 @@ public class EmpDAO implements EmpDAO_interface {
 				emp.setEmp_chat_auth(rs.getInt("EMP_CHAT_AUTH"));
 				emp.setEmp_level(rs.getInt("EMP_LEVEL"));		
 			}
-		} catch (ClassNotFoundException ce) {
-			throw new RuntimeException("Couldn't load database driver. " + ce.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -236,8 +228,7 @@ public class EmpDAO implements EmpDAO_interface {
 
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -257,9 +248,6 @@ public class EmpDAO implements EmpDAO_interface {
 				empList.add(emp);
 			}
 
-		} catch (ClassNotFoundException ce) {
-			throw new RuntimeException("Couldn't load database driver. " + ce.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources

@@ -9,7 +9,7 @@ public class RandomItemService {
 private RandomItem_interface dao;
 	
 	public RandomItemService() {
-		dao = new RandomItemJDBCDAO();
+		dao = new RandomItemDAO();
 	}
 	
 	public List<ItemVO> getRandomItem() {
