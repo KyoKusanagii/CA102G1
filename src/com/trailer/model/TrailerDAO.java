@@ -10,13 +10,22 @@ import java.util.List;
 
 import com.trailer.model.TrailerVO;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class TrailerDAO implements TrailerDAO_interface {
 
-	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
-	private static final String USER = "Instabuy";
-	private static final String PASSWORD = "123456";
-
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	private static final String INSERT_STMT = "INSERT INTO TRAILER (TRAILER_NO,TRAILER_SELLER_NO,TRAILER_TIME,TRAILER_TOPIC) VALUES "
 			+ "(('T'||LPAD(to_char(trailer_seq.NEXTVAL), 5, '0')),?,?,?)";
 	private static final String GET_ALL_STMT = "SELECT TRAILER_NO,TRAILER_SELLER_NO,TRAILER_TIME,TRAILER_TOPIC FROM TRAILER ORDER BY TRAILER_NO";
@@ -32,8 +41,7 @@ public class TrailerDAO implements TrailerDAO_interface {
 
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, trailerVO.getTrailer_seller_no());
@@ -43,9 +51,6 @@ public class TrailerDAO implements TrailerDAO_interface {
 			updateCount = pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -76,8 +81,7 @@ public class TrailerDAO implements TrailerDAO_interface {
 
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, trailerVO.getTrailer_seller_no());
@@ -88,9 +92,6 @@ public class TrailerDAO implements TrailerDAO_interface {
 			updateCount = pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -121,8 +122,7 @@ public class TrailerDAO implements TrailerDAO_interface {
 
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, trailer_no);
@@ -130,9 +130,6 @@ public class TrailerDAO implements TrailerDAO_interface {
 			updateCount = pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -164,8 +161,7 @@ public class TrailerDAO implements TrailerDAO_interface {
 
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, trailer_seller_no);
@@ -182,9 +178,6 @@ public class TrailerDAO implements TrailerDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -225,8 +218,7 @@ public class TrailerDAO implements TrailerDAO_interface {
 
 		try {
 
-			Class.forName(DRIVER);
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -241,9 +233,6 @@ public class TrailerDAO implements TrailerDAO_interface {
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
