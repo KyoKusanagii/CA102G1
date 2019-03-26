@@ -89,10 +89,10 @@
 	<!--網站每5分鐘的設定人氣統計排程 -->
   <servlet>
     <servlet-name>WebSitePopularity</servlet-name>
-    <servlet-class>com.util.storeVisitTimesToRedis</servlet-class>
+    <servlet-class>com.util.doOnServletStart</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
   <listener>
-  	<listener-class>com.util.storeVisitTimesToRedis</listener-class>
+  	<listener-class>com.util.doOnServletStart</listener-class>
   </listener>
 </web-app>

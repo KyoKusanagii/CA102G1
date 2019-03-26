@@ -8,7 +8,7 @@ public class CarouselService {
 	private CarouselDAO_interface dao;
 	
 	public CarouselService() {
-		dao = new CarouselJDBCDAO();
+		dao = new CarouselDAO();
 	}
 	
 	public CarouselVO add(byte[] Carousel_pic, String Carousel_title, String Carousel_subTitle) {

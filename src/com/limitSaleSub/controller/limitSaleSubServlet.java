@@ -29,29 +29,6 @@ public class limitSaleSubServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	
-	public static byte[] getPictureByteArray(Part part) throws IOException {
-		InputStream in = part.getInputStream();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		byte[] buffer = new byte[1024];
-		int i;
-		while ((i = in.read(buffer)) != -1) {
-			baos.write(buffer, 0, i);
-		}
-		baos.flush();
-		baos.close();
-		in.close();
-
-		return baos.toByteArray();
-	}	
-	
-	@Override
-	public void init() throws ServletException {
-			Set<LimitSaleSubVO> lsList = lmSvc.getRandomFive();
-			getServletContext().setAttribute("lsList", lsList);
-			
-	}  
-	
-	@SuppressWarnings("unchecked")
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		
@@ -104,9 +81,4 @@ public class limitSaleSubServlet extends HttpServlet {
 		
 		
 	}
-	@Override
-	public void destroy(){
-		getServletContext().removeAttribute("lsList");
-	}
-	
 }

@@ -21,19 +21,15 @@ import com.article.model.ArticleVO;
 public class ArticleJNDIDAO implements ArticleDAO_interface{
 
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
-//		private static DataSource ds = null;
-//		static {
-//			try {
-//				Context ctx = new InitialContext();
-//				ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
-//			} catch (NamingException e) {
-//				e.printStackTrace();
-//			}
-//		}
-	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
-	private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static final String USER = "Instabuy";
-	private static final String PASSWORD = "123456";
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	public static final String INSERT_STMT = "INSERT INTO ARTICLE(ARTI_NO, ARTI_TOPIC, MEM_NO, ARTI_CONTENT, PO_TIME) VALUES('A'||LPAD(to_char(article_seq.NEXTVAL), 5,'0'), ?, ?, ?, ?)";
 	public static final String UPDATE_STMT = "UPDATE ARTICLE SET ARTI_TOPIC = ?, ARTI_CONTENT = ?, PO_TIME = ? WHERE ARTI_NO = ?";
 	public static final String DELETE_STMT = "DELETE FROM ARTICLE WHERE ARTI_NO = ?";
@@ -56,14 +52,7 @@ public class ArticleJNDIDAO implements ArticleDAO_interface{
 		
 		try {
 			
-			//con = ds.getConnection();
-			try {
-				Class.forName(DRIVER);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 			pstmt.setString(1, articleVO.getArti_topic());
 			pstmt.setString(2, articleVO.getMem_no());
@@ -101,14 +90,7 @@ public class ArticleJNDIDAO implements ArticleDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			//con = ds.getConnection();
-			try {
-				Class.forName(DRIVER);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
 			pstmt.setString(1, articleVO.getArti_topic());
 			pstmt.setCharacterStream(2, stringToReader(articleVO.getArti_content()));
@@ -147,14 +129,7 @@ public class ArticleJNDIDAO implements ArticleDAO_interface{
 		PreparedStatement pstmt = null;
 		
 		try {
-			//con = ds.getConnection();
-			try {
-				Class.forName(DRIVER);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
 			pstmt.setString(1, arti_no);
 			pstmt.executeUpdate();
@@ -191,14 +166,7 @@ public class ArticleJNDIDAO implements ArticleDAO_interface{
 		ResultSet rs = null;
 		
 		try {
-			//con = ds.getConnection();
-			try {
-				Class.forName(DRIVER);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_PK);
 			pstmt.setString(1, arti_no);
 			
@@ -255,14 +223,7 @@ public class ArticleJNDIDAO implements ArticleDAO_interface{
 		ResultSet rs = null;
 		
 		try {
-			//con = ds.getConnection();
-			try {
-				Class.forName(DRIVER);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 			
@@ -318,14 +279,7 @@ public class ArticleJNDIDAO implements ArticleDAO_interface{
 		ResultSet rs = null;
 		
 		try {
-			//con = ds.getConnection();
-			try {
-				Class.forName(DRIVER);
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			con = DriverManager.getConnection(URL, USER, PASSWORD);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(FIND_BY_TOPIC);
 			pstmt.setString(1, "%" + arti_topic + "%");
 			pstmt.setString(2, "%" + arti_topic + "%");

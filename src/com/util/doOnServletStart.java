@@ -23,18 +23,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionBindingEvent;
 
+import com.limitSaleSub.model.LimitSaleSubService;
+import com.limitSaleSub.model.LimitSaleSubVO;
 import com.randomNewItem.model.RandomItemService;
 
 import Acme.Serve.servlet.http.HttpSession;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-@WebServlet("/storeVisitTimesToRedis")
+@WebServlet("/doOnServletStart")
 
-public class storeVisitTimesToRedis extends HttpServlet implements ServletContextListener{
+public class doOnServletStart extends HttpServlet implements ServletContextListener{
 	
 	private static final long serialVersionUID = 1L;
 	private static JedisPool pool;
+	private LimitSaleSubService lmSvc = null;
 	
 	Calendar cal2 = new GregorianCalendar(new GregorianCalendar().get(Calendar.YEAR),
 			new GregorianCalendar().get(Calendar.MONTH),new GregorianCalendar().get(Calendar.DAY_OF_MONTH),0,0,0);
@@ -100,7 +103,9 @@ public class storeVisitTimesToRedis extends HttpServlet implements ServletContex
 		t = new Timer();
 		pool = JedisPoolUtil.getJedisPool();
 		t.scheduleAtFixedRate(task,cal2.getTime(),1*60*1000); //5分鐘重設一次排程
-		
+		lmSvc = new LimitSaleSubService();
+		Set<LimitSaleSubVO> lsList = lmSvc.getRandomFive();
+		context.setAttribute("lsList", lsList);
 
 		/* 8/16 從MemVO搬過來 */
 		RandomItemService riSvc = new RandomItemService();

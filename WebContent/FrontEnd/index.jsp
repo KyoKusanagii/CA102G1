@@ -28,7 +28,7 @@
 		lsList = lmSvc.getRandomFive();
 	}
 	application.setAttribute("lsList", lsList);
-	
+
 	Date date = new Date();
 	pageContext.setAttribute("date", date);
 %>	
