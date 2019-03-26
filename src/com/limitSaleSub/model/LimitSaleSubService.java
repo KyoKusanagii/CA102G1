@@ -6,7 +6,7 @@ public class LimitSaleSubService {
 	private LimitSaleSubDAO_interface dao;
 	
 	public LimitSaleSubService() {
-		dao = new LimitSaleSubJDBCDAO();
+		dao = new LimitSaleSubDAO();
 	}
 	
 	public LimitSaleSubVO findByPK(Integer sale_no) {
