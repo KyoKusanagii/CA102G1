@@ -54,9 +54,9 @@ public class EmpService {
 		return emp;		
 	}
 	
-	public EmpVO findEmp(String emp_no) {
+	public EmpVO findEmp(String emp_id) {
 		
-		EmpVO emp = dao.findByPK(emp_no);
+		EmpVO emp = dao.findById(emp_id);
 		
 		return emp;
 	}
@@ -65,6 +65,23 @@ public class EmpService {
 		List<EmpVO> empList = dao.getAll();
 		
 		return empList;
+	}
+
+	public String empLoginCheck(String login_id,String login_password){
+		String loginMsg = "";
+		EmpVO empVO = dao.empLoginCheck(login_id,login_password);
+		if(empVO.getEmp_id() == null){
+			loginMsg = "沒有此帳號";
+		}else{
+			boolean isLoginSuccess = login_password.equals(empVO.getEmp_pwd());
+			if(isLoginSuccess){
+				loginMsg = "登入成功";
+			}else{
+				loginMsg = "密碼錯誤";
+			}
+		}
+
+		return loginMsg;
 	}
 
 }

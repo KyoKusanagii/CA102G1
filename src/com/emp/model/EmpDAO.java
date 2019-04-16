@@ -38,11 +38,63 @@ public class EmpDAO implements EmpDAO_interface {
 	private static final String DELETE_STMT = "DELETE FROM EMPLOYEE WHERE EMP_NO = ?";
 	
 	private static final String FIND_BY_PK =  "SELECT * FROM EMPLOYEE WHERE EMP_NO = ?";
+
+	private static final String FIND_BY_ACCOUNT =  "SELECT * FROM EMPLOYEE WHERE EMP_ID = ?";
 	
 	private static final String GET_ALL = "SELECT * FROM EMPLOYEE ORDER BY EMP_NO";
 
-	
-	@Override 
+	private static final String FIND_BY_EMP_ID = "SELECT * FROM EMPLOYEE WHERE EMP_ID = ?";
+
+
+	@Override
+	public EmpVO empLoginCheck(String login_id, String login_password) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String loginMsg = "";
+		EmpVO emp = new EmpVO();
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_EMP_ID);
+			pstmt.setString(1, login_id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				emp.setEmp_no(rs.getString("EMP_NO"));
+				emp.setEmp_id(rs.getString("EMP_ID"));
+				emp.setEmp_pwd(rs.getString("EMP_PWD"));
+				emp.setEmp_name(rs.getString("EMP_NAME"));
+				emp.setEmp_status(rs.getInt("EMP_STATUS"));
+				emp.setEmp_icon(rs.getBytes("EMP_ICON"));
+				emp.setEmp_mem_auth(rs.getInt("EMP_MEM_AUTH"));
+				emp.setEmp_carousel_auth(rs.getInt("EMP_CAROUSEL_AUTH"));
+				emp.setEmp_report_auth(rs.getInt("EMP_REPORT_AUTH"));
+				emp.setEmp_chat_auth(rs.getInt("EMP_CHAT_AUTH"));
+				emp.setEmp_level(rs.getInt("EMP_LEVEL"));
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return emp;
+	}
+
+	@Override
 	public void insert(EmpVO emp) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -188,6 +240,62 @@ public class EmpDAO implements EmpDAO_interface {
 				emp.setEmp_report_auth(rs.getInt("EMP_REPORT_AUTH"));
 				emp.setEmp_chat_auth(rs.getInt("EMP_CHAT_AUTH"));
 				emp.setEmp_level(rs.getInt("EMP_LEVEL"));		
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return emp;
+	}
+
+	@Override
+	public EmpVO findById(String emp_id) {
+		EmpVO emp = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FIND_BY_ACCOUNT);
+			pstmt.setString(1, emp_id);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				emp = new EmpVO();
+				emp.setEmp_no(rs.getString("EMP_NO"));
+				emp.setEmp_id(rs.getString("EMP_ID"));
+				emp.setEmp_pwd(rs.getString("EMP_PWD"));
+				emp.setEmp_name(rs.getString("EMP_NAME"));
+				emp.setEmp_status(rs.getInt("EMP_STATUS"));
+				emp.setEmp_icon(rs.getBytes("EMP_ICON"));
+				emp.setEmp_mem_auth(rs.getInt("EMP_MEM_AUTH"));
+				emp.setEmp_carousel_auth(rs.getInt("EMP_CAROUSEL_AUTH"));
+				emp.setEmp_report_auth(rs.getInt("EMP_REPORT_AUTH"));
+				emp.setEmp_chat_auth(rs.getInt("EMP_CHAT_AUTH"));
+				emp.setEmp_level(rs.getInt("EMP_LEVEL"));
 			}
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());

@@ -8,6 +8,8 @@ public interface EmpDAO_interface {
 	void update(EmpVO emp);
 	void delete(String emp_no);
 	EmpVO findByPK(String emp_no);
+	EmpVO findById(String emp_id);
 	List<EmpVO> getAll();
+	EmpVO empLoginCheck(String login_id,String login_password);
 
 }
